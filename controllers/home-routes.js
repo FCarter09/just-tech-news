@@ -1,8 +1,9 @@
 
 const router = require('express').Router();
 const sequelize = require('../config/connection');
-const { Post, User, Comment } = require('../models');
+const { Post, User, Comment, Vote } = require('../models');
 
+// GET route for all posts
 router.get('/', (req, res) => {
  // data from post-routes.js in Post.findAll in GET route
   Post.findAll({
@@ -37,6 +38,11 @@ router.get('/', (req, res) => {
       res.status(500).json(err);
     });
 });
+
+// GET route for user login
+router.get('/login', (req, res) => {
+    res.render('login');
+  });
 
 module.exports = router;
 
