@@ -5,6 +5,7 @@ const { Post, User, Comment, Vote } = require('../models');
 
 // GET route for all posts
 router.get('/', (req, res) => {
+  console.log('======================');
  // data from post-routes.js in Post.findAll in GET route
   Post.findAll({
     attributes: [
@@ -41,8 +42,30 @@ router.get('/', (req, res) => {
 
 // GET route for user login
 router.get('/login', (req, res) => {
+  if (req.session.loggedIn) {
+    res.redirect('/');
+    return;
+  }
     res.render('login');
   });
+
+  // Get route for user logout
+  router.get('/logout', (req, res) => {
+    if (req.session.loggedIn) {
+      req.session.loggedIn.destroy(() => {
+        res.status(204).end();
+      });
+    }else{
+      res.status(404).end();
+    }
+  });
+  // router.get('/logout', (req, res) => {
+  //   if (req.session.loggedIn) {
+  //     res.redirect('/');
+  //     return;
+  //   }
+  //     res.render('logout');
+  // });
 
 module.exports = router;
 
